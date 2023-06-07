@@ -14,7 +14,10 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        $projects = Project::latest()->paginate(5);
+
+        return view('projects.index',compact('projects'))
+            ->with(request()->input('page'));
     }
 
     /**
@@ -24,7 +27,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return view('projects.create');
     }
 
     /**
@@ -35,7 +38,16 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'project_name' => 'required|max:255',
+            'project_description' => 'required|max:500',
+        ]);
+
+
+        Project::create($request->all());
+
+        return redirect()->route('projects.index')
+                        ->with('success','Project created successfully.');
     }
 
     /**
@@ -80,6 +92,9 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $project->delete();
+
+        return redirect()->route('projects.index')
+                        ->with('success','Project successfully deleted');
     }
 }
