@@ -16,18 +16,7 @@ class ProjectController extends Controller
     {
         $projects = Project::latest()->paginate(5);
 
-        return view('projects.index',compact('projects'))
-            ->with(request()->input('page'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('projects.create');
+        return response()->json($projects);
     }
 
     /**
@@ -43,12 +32,23 @@ class ProjectController extends Controller
             'project_description' => 'required|max:500',
         ]);
 
+        $project = Project::create($request->all());
 
-        Project::create($request->all());
-
-        return redirect()->route('projects.index')
-                        ->with('success','Project created successfully.');
+        return response()->json($project, 201);
     }
+
+    public function update(Request $request, Project $project)
+    {
+    $request->validate([
+        'project_name' => 'required|max:255',
+        'project_description' => 'required|max:500',
+    ]);
+
+    $project->update($request->all());
+
+    return response()->json($project, 200);
+    }
+
 
     /**
      * Display the specified resource.
@@ -58,30 +58,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Project $project)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Project $project)
-    {
-        //
+        return response()->json($project);
     }
 
     /**
@@ -92,9 +69,8 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        $project->delete();
+        $project->forceDelete();
 
-        return redirect()->route('projects.index')
-                        ->with('success','Project successfully deleted');
+        return response()->json($project, 204);
     }
 }
