@@ -14,9 +14,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::latest()->paginate(5);
+        $projects = Project::latest()->paginate(10);
 
-        return response()->json($projects);
+        return response()->json(['projects' => $projects], 200);
     }
 
     /**
@@ -27,28 +27,34 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'project_name' => 'required|max:255',
             'project_description' => 'required|max:500',
         ]);
 
-        $project = Project::create($request->all());
+        $project = Project::create($validatedData);
 
         return response()->json($project, 201);
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Project  $project
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request, Project $project)
     {
-    $request->validate([
-        'project_name' => 'required|max:255',
-        'project_description' => 'required|max:500',
-    ]);
+        $validatedData = $request->validate([
+            'project_name' => 'required|max:255',
+            'project_description' => 'required|max:500',
+        ]);
 
-    $project->update($request->all());
+        $project->update($validatedData);
 
-    return response()->json($project, 200);
+        return response()->json($project, 200);
     }
-
 
     /**
      * Display the specified resource.
@@ -69,8 +75,8 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        $project->forceDelete();
+        $project->delete();
 
-        return response()->json($project, 204);
+        return response()->json(null, 204);
     }
 }

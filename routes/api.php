@@ -21,8 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::get('projects', [ProjectController::class, 'index']);
-Route::post('projects', [ProjectController::class, 'store']);
-Route::get('projects/{id}', [ProjectController::class, 'show']);
-Route::put('projects/{id}', [ProjectController::class, 'update']);
-Route::delete('projects/{id}', [ProjectController::class, 'destroy']);
+Route::resource('projects', ProjectController::class);
