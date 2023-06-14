@@ -14,9 +14,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::latest()->paginate(10);
+        $project = Project::latest()->paginate(10);
 
-        return response()->json(['projects' => $projects], 200);
+        return response()->json(['projects' => $project], 200);
     }
 
     /**
@@ -27,12 +27,12 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $validatedProject = $request->validate([
             'project_name' => 'required|max:255',
             'project_description' => 'required|max:500',
         ]);
 
-        $project = Project::create($validatedData);
+        $project = Project::create($validatedProject);
 
         return response()->json($project, 201);
     }
@@ -75,8 +75,16 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+
         $project->delete();
 
-        return response()->json(null, 204);
+        /**
+         * return response()->json('null', 204);
+         */
+
+        return response()->json('Successfully deleted');
+
+
+
     }
 }

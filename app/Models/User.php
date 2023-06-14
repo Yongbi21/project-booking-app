@@ -18,7 +18,9 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
+        'contact_number',
         'email',
         'password',
     ];
@@ -41,4 +43,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $existingEmail = User::where('email', $user->email)->first();
+            if ($existingEmail) {
+                abort(422, 'The email you provide already exists.');
+            }
+        });
+    }
+
+
 }
