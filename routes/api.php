@@ -3,7 +3,11 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\RoleUserController;
+use App\Http\Controllers\MilestoneController;
 
 
 /*
@@ -24,3 +28,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::resource('projects', ProjectController::class);
 Route::resource('roles', RoleController::class);
 Route::resource('users', UserController::class);
+Route::resource('role_user', RoleUserController::class);
+Route::resource('tasks', TaskController::class);
+Route::resource('milestones', MilestoneController::class);

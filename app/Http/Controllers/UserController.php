@@ -34,7 +34,6 @@ class UserController extends Controller
             'contact_number' => 'required|max:20',
             'email' => 'required|email|unique:users|max:255',
             'password' => 'required|min:8'
-
         ]);
 
         $user = User::create($validatedUser);
@@ -66,7 +65,7 @@ class UserController extends Controller
             "first_name" => "required|max:255",
             "last_name" => "required|max:255",
             "contact_number" => "required|max:20",
-            "email" => "required|email|unique:users|max:255",
+            "email" => "required|email|unique:users,email|max:255",
             "password" => "required|min:8|max:255"
         ]);
 
