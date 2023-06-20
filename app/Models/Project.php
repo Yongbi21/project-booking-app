@@ -19,19 +19,19 @@ class Project extends Model
     ];
 
 
+
     public static function boot()
-{
-    parent::boot();
+    {
+        parent::boot();
 
-    static::creating(function ($role_user) {
-        $existingRoleUser = RoleUser::where('role_id', $roleUser->role_id)
-            ->where('user_id', $roleUser->user_id)
+        static::creating(function ($project) {
+            $existingProject = Project::where('project_name', $project->project_name)
+            ->where('project_description', $project->project_description)
             ->first();
-
-        if ($existingRoleUser) {
-            abort(422, 'The role-user combination already exists.');
-        }
-    });
-}
+            if ($existingProject) {
+                abort(422, 'Project name and description already exists.');
+            }
+        });
+    }
 
 }

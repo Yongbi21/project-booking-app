@@ -31,7 +31,7 @@ class Role extends Model
         static::creating(function ($role) {
             $existingRole = Role::where('role_name', $role->role_name)->first();
             if ($existingRole) {
-                abort(422, 'The Role with the same name already exists.');
+                abort(422, 'Role name already exists.');
             }
         });
     }

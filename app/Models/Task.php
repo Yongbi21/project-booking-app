@@ -22,7 +22,7 @@ class Task extends Model
         static::creating(function ($task) {
             $existingTask = Task::where('task_name', $task->task_name)->first();
             if ($existingTask) {
-                abort(422, 'The Task name already exists.');
+                abort(422, 'Task name already exists.');
             }
         });
     }

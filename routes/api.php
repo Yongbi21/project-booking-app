@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RoleUserController;
 use App\Http\Controllers\MilestoneController;
+use App\Http\Controllers\MilestoneTaskController;
 
 
 /*
@@ -31,3 +32,4 @@ Route::resource('users', UserController::class);
 Route::resource('role_user', RoleUserController::class);
 Route::resource('tasks', TaskController::class);
 Route::resource('milestones', MilestoneController::class);
+Route::resource('milestone_task', MilestoneTaskController::class);

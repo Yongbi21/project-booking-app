@@ -28,7 +28,27 @@ class RoleUserController extends Controller
      */
     public function store(Request $request)
     {
-        $role_user = RoleUser::create($request->all());
+
+        $validateRoleUSer = $request->validate([
+            'user_id' => [
+                'required', 'exists:users,id',
+                function ($attribute, $value, $fail) use ($request) {
+                    $exists = RoleUser::where('user_id', $value)
+                    ->where('role_id', $request->input('role_id'))
+                    ->exists();
+
+                if ($exists){
+                    $fail('The combination of role and user already exists.');
+                }
+
+
+                }
+            ],
+
+            'role_id' => 'required', 'exists:roles, id',
+        ]);
+
+        $role_user = RoleUser::create($validateRoleUSer);
 
         return response()->json(['role_user' => $role_user], 201);
     }
