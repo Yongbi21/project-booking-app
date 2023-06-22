@@ -8,24 +8,27 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('teams', function (Blueprint $table) {
             $table->id();
-            $table->string('team_members');
-            $table->string('email');
             $table->string('team_name');
-            $table->string('team_leader');
             $table->string('team_details');
+            $table->string('email')->nullable();
             $table->timestamps();
         });
+
     }
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('teams');
     }

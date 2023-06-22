@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class RoleUser extends Pivot
+class TeamUser extends Pivot
 {
-    protected $table = 'role_user';
+    protected $table = 'team_user';
 
 }

@@ -2,17 +2,25 @@
 
 namespace App\Models;
 
-use App\Models\RoleUser;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Role extends Model
+class Team extends Model
 {
     use HasFactory;
 
+
+    protected $table = 'teams';
+
+    protected $fillable = [
+        'team_name',
+        'team_details',
+        'email',
+    ];
+
     /**
-     * The roles that belong to the Role
+     * The users that belong to the Team
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
@@ -21,26 +29,17 @@ class Role extends Model
         return $this->belongsToMany(User::class);
     }
 
-
-
-    protected $table = 'roles';
-
-
-    protected $fillable = [
-        'role_name'
-    ];
-
-
     public static function boot()
     {
         parent::boot();
 
-        static::creating(function ($role) {
-            $existingRole = Role::where('role_name', $role->role_name)->first();
-            if ($existingRole) {
-                abort(422, 'Role name already exists.');
+        static::creating(function ($team) {
+            $existingTeam = Team::where('team_name', $team->team_name)->first();
+            if ($existingTeam) {
+                abort(422, 'Team name already exists.');
             }
         });
     }
+
 
 }
