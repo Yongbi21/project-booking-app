@@ -21,10 +21,16 @@ class User extends Authenticatable
      *
      */
 
-     public function roles(): BelongsToMany
-     {
+    public function roles(): BelongsToMany
+    {
         return $this->belongsToMany(Role::class);
-     }
+    }
+
+    public function teams()
+    {
+        return $this->belongsToMany(Team::class, 'team_user', 'user_id', 'team_id')
+                    ->withPivot('team_email');
+    }
 
 
     protected $fillable = [

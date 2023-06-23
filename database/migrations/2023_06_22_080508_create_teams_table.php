@@ -17,9 +17,12 @@ return new class extends Migration
             $table->id();
             $table->string('team_name');
             $table->string('team_details');
-            $table->string('email')->nullable();
+            $table->unsignedBigInteger('team_leader_id');
             $table->timestamps();
+
+            $table->foreign('team_leader_id')->references('id')->on('users');
         });
+
 
     }
 
