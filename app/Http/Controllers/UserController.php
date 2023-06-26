@@ -65,15 +65,15 @@ class UserController extends Controller
             "first_name" => "required|max:255",
             "last_name" => "required|max:255",
             "contact_number" => "required|max:20",
-            "email" => "required|email|unique:users,email," . $user->id . ",id|max:255",
+            "email" => "required|email|unique:users,email|max:255",
             "password" => "required|min:8|max:255"
         ]);
 
         $user->update($validatedUser);
 
-        return response()->json(['data' => $user], 200);
-    }
+        return response()->json($user, 200);
 
+    }
 
     /**
      * Remove the specified resource from storage.

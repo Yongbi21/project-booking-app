@@ -80,6 +80,6 @@ class PriceQuoteController extends Controller
      */
     public function destroy(PriceQuote $priceQuote)
     {
-        //
+        // return response()->json(null, 204);
     }
 }
