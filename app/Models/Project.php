@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Exception;
+use App\Models\ProjectRequest;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -19,19 +20,9 @@ class Project extends Model
     ];
 
 
-
-    public static function boot()
+    public function projectRequests()
     {
-        parent::boot();
-
-        static::creating(function ($project) {
-            $existingProject = Project::where('project_name', $project->project_name)
-            ->where('project_description', $project->project_description)
-            ->first();
-            if ($existingProject) {
-                abort(422, 'Project name and description already exists.');
-            }
-        });
+        return $this->hasMany(ProjectRequest::class);
     }
 
 }

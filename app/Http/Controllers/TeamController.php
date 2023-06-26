@@ -68,4 +68,12 @@ class TeamController extends Controller
 
         return response()->json($team, 200);
     }
+
+    public function destroy(Team $team)
+    {
+        $team->delete();
+
+        return response()->json('null', 204);
+    }
+
 }

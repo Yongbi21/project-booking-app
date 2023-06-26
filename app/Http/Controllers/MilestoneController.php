@@ -75,6 +75,7 @@ class MilestoneController extends Controller
     {
         $milestone->delete();
 
-        return response()->json('Successfully Deleted');
+        // return response()->json('Successfully Deleted');
+        return response()->json(null, 204);
     }
 }

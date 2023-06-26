@@ -95,6 +95,6 @@ class TeamUserController extends Controller
         $team_user = TeamUser::findOrFail($id);
         $team_user->delete();
 
-        return response()->json("Successfully deleted!!!");
+        return response()->json(null, 204);
     }
 }

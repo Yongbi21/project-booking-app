@@ -116,9 +116,9 @@ class MilestoneTaskController extends Controller
      */
     public function destroy(MilestoneTask $milestoneTask)
     {
-
         $milestoneTask->delete();
 
-        return response()->json("Successfully deleted!");
+        return response()->json(null, 204);
     }
+
 }

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Role;
+use App\Models\Team;
 use App\Models\RoleUser;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -30,6 +32,11 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Team::class, 'team_user', 'user_id', 'team_id')
                     ->withPivot('team_email');
+    }
+
+    public function projectRequests()
+    {
+        return $this->hasMany(ProjectRequest::class);
     }
 
 

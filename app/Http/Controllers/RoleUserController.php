@@ -93,6 +93,11 @@ class RoleUserController extends Controller
         $role_user = RoleUser::findOrFail($id);
         $role_user->delete();
 
-        return response()->json("Successfully deleted!!!");
+        // return response()->json('"Successfully deleted!!!"');
+
+        return response()->json(null, 204);
     }
 }
+
+
+

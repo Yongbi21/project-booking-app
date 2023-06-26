@@ -77,12 +77,10 @@ class RoleController extends Controller
     {
         $role->delete();
 
-        /*
-         * return response()->json('null', 204);
-         */
 
-        return response()->json('Successfully deleted');
+        return response()->json(null, 204);
 
+        //return response()->json('Successfully deleted');
 
     }
 }

@@ -6,11 +6,13 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RoleUserController;
 use App\Http\Controllers\TeamUserController;
 use App\Http\Controllers\MilestoneController;
 use App\Http\Controllers\MilestoneTaskController;
+use App\Http\Controllers\ProjectRequestController;
 
 
 /*
@@ -37,3 +39,5 @@ Route::resource('milestones', MilestoneController::class);
 Route::resource('milestone_task', MilestoneTaskController::class);
 Route::resource('teams', TeamController::class);
 Route::resource('team_user', TeamUserController::class);
+Route::resource('project_requests', ProjectRequestController::class);
+Route::resource('messages', MessageController::class);
