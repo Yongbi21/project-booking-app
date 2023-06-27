@@ -32,6 +32,7 @@ class RoleController extends Controller
 
         ]);
 
+        $validateRole['role_name'] = strtolower($validateRole['role_name']);
         $role = Role::create($validateRole);
         return response()->json($role, 201);
 
@@ -61,6 +62,8 @@ class RoleController extends Controller
         $validateRole = $request->validate([
             'role_name' => 'required|max:255',
         ]);
+
+        $validateRole['role_name'] = strtolower($validateRole['role_name']);
 
         $role->update($validateRole);
 

@@ -32,6 +32,7 @@ class ProjectController extends Controller
             'project_description' => 'required|max:500',
         ]);
 
+        $validatedProject['project_name'] = ucwords(strtolower($validatedProject['project_name']));
         $project = Project::create($validatedProject);
 
         return response()->json($project, 201);

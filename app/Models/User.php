@@ -39,9 +39,27 @@ class User extends Authenticatable
         return $this->hasMany(ProjectRequest::class);
     }
 
+    public function isAdmin()
+    {
+        return $this->role->role_name === 'Admin';
+    }
+
+    public function isMember()
+    {
+        return $this->role->role_name === 'Member';
+    }
+
+    public function isGuest()
+    {
+        return $this->role->role_name === 'Guest';
+    }
+
+
+
 
     protected $fillable = [
         'first_name',
+        'middle_name',
         'last_name',
         'contact_number',
         'email',

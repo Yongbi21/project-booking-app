@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TeamController;
@@ -41,3 +42,7 @@ Route::resource('teams', TeamController::class);
 Route::resource('team_user', TeamUserController::class);
 Route::resource('project_requests', ProjectRequestController::class);
 Route::resource('messages', MessageController::class);
+
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);
