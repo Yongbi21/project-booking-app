@@ -29,7 +29,7 @@ class ProjectController extends Controller
     {
         $validatedProject = $request->validate([
             'project_name' => 'required|max:255',
-            'project_description' => 'required|max:500',
+            'project_description' => 'required|max:255',
         ]);
 
         $validatedProject['project_name'] = ucwords(strtolower($validatedProject['project_name']));
@@ -49,7 +49,7 @@ class ProjectController extends Controller
     {
         $validatedData = $request->validate([
             'project_name' => 'required|max:255',
-            'project_description' => 'required|max:500',
+            'project_description' => 'required|max:255',
         ]);
 
         $project->update($validatedData);

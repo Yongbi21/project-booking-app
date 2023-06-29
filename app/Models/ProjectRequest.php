@@ -19,6 +19,8 @@ class ProjectRequest extends Model
         'project_complexity',
         'estimate_time',
         'additional_services',
+        'project_name',
+        'project_description',
     ];
 
     public function project(): BelongsTo

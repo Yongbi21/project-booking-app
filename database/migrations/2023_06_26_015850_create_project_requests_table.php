@@ -15,8 +15,10 @@ return new class extends Migration
     {
         Schema::create('project_requests', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('project_id');
+            $table->unsignedBigInteger('project_id')->nullable();
             $table->unsignedBigInteger('user_id');
+            $table->string('project_name')->nullable();
+            $table->string('project_description')->nullable();
             $table->decimal('budget', 10, 2);
             $table->string('priority');
             $table->date('due_date');
