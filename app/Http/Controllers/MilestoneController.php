@@ -31,7 +31,7 @@ class MilestoneController extends Controller
             "milestone_name" => "required|unique:milestones,milestone_name"
         ]);
 
-        $validateMilestone['milestone_name'] = strtolower($validateMilestone['milestone_name']);
+        $validateMilestone['milestone_name'] = ucwords(strtolower($validateMilestone['milestone_name']));
         $milestone = Milestone::create($validateMilestone);
 
         return response()->json($milestone, 200);

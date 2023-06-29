@@ -61,6 +61,7 @@ class TaskController extends Controller
             'task_name' => 'required'
         ]);
 
+        $validatedTask['task_name'] = ucwords(strtolower($validatedTask['task_name']));
         $task->update($validatedTask);
         return response()->json($task, 200);
     }

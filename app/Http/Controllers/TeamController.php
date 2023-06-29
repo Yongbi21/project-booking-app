@@ -34,6 +34,8 @@ class TeamController extends Controller
             'team_leader_id' => 'required|exists:users,id',
         ]);
 
+        $validatedData['team_name'] = ucwords(strtolower($validatedData['team_name']));
+        $validatedData['team_details'] = ucwords(strtolower($validatedData['team_details']));
         $team = Team::create($validatedData);
         return response()->json($team, 201);
     }
@@ -65,7 +67,7 @@ class TeamController extends Controller
         ]);
 
         $validatedData['team_name'] = ucwords(strtolower($validatedData['team_name']));
-        $validatedData['team_details'] = strtolower($validatedData['team_details']);
+        $validatedData['team_details'] = ucwords(strtolower($validatedData['team_details']));
         $team->update($validatedData);
 
         return response()->json($team, 200);

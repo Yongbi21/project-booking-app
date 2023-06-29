@@ -33,14 +33,5 @@ class ProjectRequest extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function getUserEmailAttribute()
-    {
-        return $this->user->email;
-    }
-
-    public function getProjectDetailsAttribute()
-    {
-        return $this->project->toArray();
-    }
 }
 
