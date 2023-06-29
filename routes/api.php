@@ -12,6 +12,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RoleUserController;
 use App\Http\Controllers\TeamUserController;
 use App\Http\Controllers\MilestoneController;
+use App\Http\Controllers\PriceQuoteController;
 use App\Http\Controllers\MilestoneTaskController;
 use App\Http\Controllers\ProjectRequestController;
 
@@ -40,6 +41,7 @@ Route::resource('milestones', MilestoneController::class);
 Route::resource('milestone_task', MilestoneTaskController::class);
 Route::resource('teams', TeamController::class);
 Route::resource('team_user', TeamUserController::class);
+Route::resource('price_quote', PriceQuoteController::class);
 
 Route::resource('project_requests', ProjectRequestController::class);
 Route::post('/project-requests', [ProjectRequestController::class, 'storeGuestRequest'])

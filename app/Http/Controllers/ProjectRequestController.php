@@ -49,7 +49,7 @@ class ProjectRequestController extends Controller
             'due_date' => 'required|date',
             'file' => 'nullable|string',
             'project_complexity' => 'required',
-            'estimate_time' => 'required|integer',
+            'estimate_time' => 'required|max:255',
             'additional_services' => 'nullable|string',
         ]);
 
@@ -65,7 +65,7 @@ class ProjectRequestController extends Controller
         $projectRequest->project()->associate($project);
         $projectRequest->save();
 
-        return response()->json(['projectRequest' => $projectRequest], 200);
+        return response()->json(['projectRequest' => $projectRequest], 201);
     }
 
 
@@ -111,7 +111,7 @@ class ProjectRequestController extends Controller
             'due_date' => 'required|date',
             'file' => 'nullable|string',
             'project_complexity' => 'required',
-            'estimate_time' => 'required|integer',
+            'estimate_time' => 'required|max:255',
             'additional_services' => 'nullable|string',
         ]);
 

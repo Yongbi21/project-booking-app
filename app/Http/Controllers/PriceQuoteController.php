@@ -14,7 +14,9 @@ class PriceQuoteController extends Controller
      */
     public function index()
     {
-        //
+        $priceQuote = PriceQuote::latest()->paginate(10);
+
+        return response()->json(['priceQuote' => $priceQuote], 200);
     }
 
     /**
@@ -22,10 +24,10 @@ class PriceQuoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
+    // public function create()
+    // {
+    //
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -35,7 +37,17 @@ class PriceQuoteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'project_request_id' => 'required|exists:project_request,id',
+            'project_complexity' => 'required|in:low,medium,high',
+            'estimate_time' => 'required|max:255',
+            'additional_services' => 'required|max:255',
+            'total_amount' => 'required|numeric',
+        ]);
+
+
+        $priceQuote = PriceQuote::create($validatedData);
+        return response()->json(['priceQuote' => $priceQuote], 201);
     }
 
     /**
@@ -46,7 +58,7 @@ class PriceQuoteController extends Controller
      */
     public function show(PriceQuote $priceQuote)
     {
-        //
+        return response()->json(['priceQuote' => $priceQuote], 200);
     }
 
     /**
@@ -55,10 +67,10 @@ class PriceQuoteController extends Controller
      * @param  \App\Models\PriceQuote  $priceQuote
      * @return \Illuminate\Http\Response
      */
-    public function edit(PriceQuote $priceQuote)
-    {
-        //
-    }
+    // public function edit(PriceQuote $priceQuote)
+    // {
+    //     //
+    // }
 
     /**
      * Update the specified resource in storage.
@@ -69,7 +81,17 @@ class PriceQuoteController extends Controller
      */
     public function update(Request $request, PriceQuote $priceQuote)
     {
-        //
+        $validatedData = $request->validate([
+            'project_request_id' => 'required|exists:project_request,id',
+            'project_complexity' => 'required|in:low,medium,high',
+            'estimate_time' => 'required|max:255',
+            'additional_services' => 'required|max:255',
+            'total_amount' => 'required|numeric',
+        ]);
+
+
+        $priceQuote->update($validatedData);
+        return response()->json(['priceQuote' => $priceQuote], 201);
     }
 
     /**
@@ -80,6 +102,8 @@ class PriceQuoteController extends Controller
      */
     public function destroy(PriceQuote $priceQuote)
     {
-        // return response()->json(null, 204);
+        $priceQuote->delete();
+
+        return response()->json(null, 204);
     }
 }

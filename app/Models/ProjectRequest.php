@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ProjectRequest extends Model
 {
+
+    protected $table = 'project_requests';
+
     protected $fillable = [
         'project_id',
         'user_id',
