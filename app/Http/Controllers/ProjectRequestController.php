@@ -41,33 +41,6 @@ class ProjectRequestController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'project_id' => 'required',
-            'user_id' => 'required',
-            'budget' => 'required|numeric',
-            'priority' => 'required',
-            'due_date' => 'required|date',
-            'file' => 'nullable|string',
-            'project_complexity' => 'required',
-            'estimate_time' => 'required|integer',
-            'additional_services' => 'nullable|string',
-        ]);
-
-        $projectRequest = ProjectRequest::create($validatedData);
-
-        return response()->json(['projectRequest' => $projectRequest->fresh()], 200);
-    }
-
-    public function indexGuestRequest()
-    {
-        $projectRequest = ProjectRequest::latest()->paginate(10);
-
-        return response()->json(['projectRequest' => $projectRequest], 200);
-    }
-
-
-    public function storeGuestRequest(Request $request)
-    {
-        $validatedData = $request->validate([
             'user_id' => 'nullable|exists:users,id', // Check if the user ID exists in the "users" table
             'project_name' => 'required|max:255',
             'project_description' => 'required|max:500',
@@ -94,9 +67,6 @@ class ProjectRequestController extends Controller
 
         return response()->json(['projectRequest' => $projectRequest], 200);
     }
-
-
-
 
 
     /**
@@ -130,22 +100,33 @@ class ProjectRequestController extends Controller
      * @param  \App\Models\ProjectRequest  $projectRequest
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ProjectRequest $projectRequest)
+    public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-        'project_id' => 'required',
-        'user_id' => 'required',
-        'budget' => 'required|numeric',
-        'priority' => 'required',
-        'due_date' => 'required|date',
-        'file' => 'nullable|string',
-        'project_complexity' => 'required',
-        'estimate_time' => 'required|integer',
-        'additional_services' => 'nullable|string',
-    ]);
+            'user_id' => 'nullable|exists:users,id',
+            'project_name' => 'required|max:255',
+            'project_description' => 'required|max:500',
+            'budget' => 'required|numeric',
+            'priority' => 'required',
+            'due_date' => 'required|date',
+            'file' => 'nullable|string',
+            'project_complexity' => 'required',
+            'estimate_time' => 'required|integer',
+            'additional_services' => 'nullable|string',
+        ]);
 
+        // Find the existing project request by ID
+        $projectRequest = ProjectRequest::findOrFail($id);
 
+        // Update the project request with the validated data
         $projectRequest->update($validatedData);
+
+        // Update the associated project record
+        $project = $projectRequest->project;
+        $project->update([
+            'project_name' => $validatedData['project_name'],
+            'project_description' => $validatedData['project_description'],
+        ]);
 
         return response()->json(['projectRequest' => $projectRequest], 200);
     }

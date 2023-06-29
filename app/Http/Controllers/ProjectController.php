@@ -45,17 +45,31 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Project $project)
+
+     public function update(Request $request, Project $project)
     {
-        $validatedData = $request->validate([
-            'project_name' => 'required|max:255',
-            'project_description' => 'required|max:255',
-        ]);
+         $validatedData = $request->validate([
+             'project_name' => 'required|max:255',
+             'project_description' => 'required|max:255',
+            ]);
 
-        $project->update($validatedData);
+         $project->update($validatedData);
 
-        return response()->json($project, 200);
+         // Update the associated project request records
+         $projectRequests = $project->projectRequests;
+         foreach ($projectRequests as $projectRequest) {
+             $projectRequest->update([
+                 'project_name' => $validatedData['project_name'],
+                 'project_description' => $validatedData['project_description'],
+                ]);
+        }
+
+         return response()->json($project, 200);
     }
+
+
+
+
 
     /**
      * Display the specified resource.
