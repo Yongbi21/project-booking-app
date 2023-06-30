@@ -38,14 +38,16 @@ class PriceQuoteController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'project_request_id' => 'required|exists:project_request,id',
-            'project_complexity' => 'required|in:low,medium,high',
+            'project_request_id' => 'required|exists:project_requests,id',
+            'project_complexity' => 'required|in:simple,moderate,complex',
             'estimate_time' => 'required|max:255',
             'additional_services' => 'required|max:255',
             'total_amount' => 'required|numeric',
         ]);
 
 
+
+        $validatedData['project_complexity'] = ucwords(strtolower($validatedData['project_complexity']));
         $priceQuote = PriceQuote::create($validatedData);
         return response()->json(['priceQuote' => $priceQuote], 201);
     }
@@ -82,7 +84,7 @@ class PriceQuoteController extends Controller
     public function update(Request $request, PriceQuote $priceQuote)
     {
         $validatedData = $request->validate([
-            'project_request_id' => 'required|exists:project_request,id',
+            'project_request_id' => 'required|exists:project_requests,id',
             'project_complexity' => 'required|in:low,medium,high',
             'estimate_time' => 'required|max:255',
             'additional_services' => 'required|max:255',
@@ -91,7 +93,7 @@ class PriceQuoteController extends Controller
 
 
         $priceQuote->update($validatedData);
-        return response()->json(['priceQuote' => $priceQuote], 201);
+        return response()->json($priceQuote, 200);
     }
 
     /**

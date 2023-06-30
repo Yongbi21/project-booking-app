@@ -41,13 +41,14 @@ Route::resource('milestones', MilestoneController::class);
 Route::resource('milestone_task', MilestoneTaskController::class);
 Route::resource('teams', TeamController::class);
 Route::resource('team_user', TeamUserController::class);
-Route::resource('price_quote', PriceQuoteController::class);
+Route::resource('price_quotes', PriceQuoteController::class);
 
 Route::resource('project_requests', ProjectRequestController::class);
-Route::post('/project-requests', [ProjectRequestController::class, 'storeGuestRequest'])
-    ->name('project-requests.storeGuestRequest');
-Route::get('/project-requests', [ProjectRequestController::class, 'indexGuestRequest'])
-    ->name('project-requests.indexGuestRequest');
+
+// Route::post('/project-requests', [ProjectRequestController::class, 'storeGuestRequest'])
+//     ->name('project-requests.storeGuestRequest');
+// Route::get('/project-requests', [ProjectRequestController::class, 'indexGuestRequest'])
+//     ->name('project-requests.indexGuestRequest');
 
 Route::resource('messages', MessageController::class);
 

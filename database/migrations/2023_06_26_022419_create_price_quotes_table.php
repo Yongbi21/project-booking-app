@@ -13,11 +13,11 @@ return new class extends Migration
       */
     public function up()
     {
-         Schema::create('price_quote', function (Blueprint $table) {
+         Schema::create('price_quotes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('project_request_id');
             $table->string('project_complexity');
-            $table->integer('estimate_time');
+            $table->string('estimate_time');
             $table->text('additional_services');
             $table->decimal('total_amount', 10, 2);
             $table->timestamps();
@@ -33,6 +33,6 @@ return new class extends Migration
       */
     public function down()
     {
-        Schema::dropIfExists('price_quote');
+        Schema::dropIfExists('price_quotes');
     }
 };

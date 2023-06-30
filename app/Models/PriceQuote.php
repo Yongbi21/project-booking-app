@@ -9,6 +9,7 @@ class PriceQuote extends Model
 {
     use HasFactory;
 
+    protected $table = 'price_quotes';
 
     protected $fillable = [
         'project_request_id',
