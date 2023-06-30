@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -37,6 +38,8 @@ class UserController extends Controller
             'email' => 'required|email|unique:users|max:255',
             'password' => 'required|min:8'
         ]);
+
+        $validatedUser['role_id'] = Role::where('name', 'guest')->value('id');
 
         $validatedUser = array_map('trim', $validatedUser);
         $validatedUser['first_name'] = ucwords(strtolower($validatedUser['first_name']));
@@ -78,10 +81,12 @@ class UserController extends Controller
             "first_name" => "required|max:255",
             'middle_name' => ['nullable', 'max:2', 'regex:/^[A-Za-z](\.?)$/'],
             "last_name" => "required|max:255",
-            "contact_number" => "required|max:20",
+            "contact_number" => "required|max:20|nullable",
             "email" => "required|email|unique:users,email|max:255",
             "password" => "required|min:8|max:255"
         ]);
+
+        $validatedUser['role_id'] = Role::where('name', 'guest')->value('id');
 
         $validatedUser = array_map('trim', $validatedUser);
         $validatedUser['first_name'] = ucwords(strtolower($validatedUser['first_name']));
