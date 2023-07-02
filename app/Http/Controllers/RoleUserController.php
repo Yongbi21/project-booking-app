@@ -29,7 +29,7 @@ class RoleUserController extends Controller
     public function store(Request $request)
     {
 
-        $validateRoleUSer = $request->validate([
+        $validateRoleUser = $request->validate([
             'user_id' => [
                 'required', 'exists:users,id',
                 function ($attribute, $value, $fail) use ($request) {
@@ -48,7 +48,7 @@ class RoleUserController extends Controller
             'role_id' => 'required', 'exists:roles, id',
         ]);
 
-        $role_user = RoleUser::create($validateRoleUSer);
+        $role_user = RoleUser::create($validateRoleUser);
 
         return response()->json(['role_user' => $role_user], 201);
     }

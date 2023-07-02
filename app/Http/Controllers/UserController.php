@@ -39,7 +39,9 @@ class UserController extends Controller
             'password' => 'required|min:8'
         ]);
 
-        $validatedUser['role_id'] = Role::where('name', 'guest')->value('id');
+        $role = Role::where('role_name', 'guest')->first();
+        $validatedUser['role_id'] = $role ? $role->id : null;
+
 
         $validatedUser = array_map('trim', $validatedUser);
         $validatedUser['first_name'] = ucwords(strtolower($validatedUser['first_name']));
@@ -53,6 +55,8 @@ class UserController extends Controller
 
 
         $user = User::create($validatedUser);
+
+
         return response()->json(['user' => $user], 201);
     }
 
@@ -86,7 +90,7 @@ class UserController extends Controller
             "password" => "required|min:8|max:255"
         ]);
 
-        $validatedUser['role_id'] = Role::where('name', 'guest')->value('id');
+        $validatedUser['role_id'] = Role::where('role_name', 'guest')->value('id');
 
         $validatedUser = array_map('trim', $validatedUser);
         $validatedUser['first_name'] = ucwords(strtolower($validatedUser['first_name']));

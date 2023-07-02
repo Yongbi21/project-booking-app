@@ -86,17 +86,4 @@ class User extends Authenticatable
     ];
 
 
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($user) {
-            $existingEmail = User::where('email', $user->email)->first();
-            if ($existingEmail) {
-                abort(422, 'The email you provide already exists.');
-            }
-        });
-    }
-
-
 }
