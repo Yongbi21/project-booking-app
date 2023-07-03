@@ -52,6 +52,18 @@ Route::resource('project_requests', ProjectRequestController::class);
 
 Route::resource('messages', MessageController::class);
 
-Route::post('register', [AuthController::class, 'register']);
-Route::post('login', [AuthController::class, 'login']);
-Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+;
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::get('inside-mware', function() {
+        return response()->json('success', 200);
+    });
+
+});
+
+
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+// Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');

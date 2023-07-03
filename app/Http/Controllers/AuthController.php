@@ -2,62 +2,118 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+
 class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        // Validation and user creation logic similar to the store method in UserController
-        $validatedUser = $request->validate([
-            'first_name' => 'required|alpha',
-            'middle_name' => ['nullable', 'max:2', 'regex:/^[A-Za-z](\.?)$/'],
-            'last_name' => 'required|alpha',
-            'contact_number' => 'required|max:20',
-            'email' => 'required|email|unique:users|max:255',
-            'password' => 'required|min:8'
-        ]);
+        try {
+            $user = User::create([
+                'first_name' => $request->input('first_name'),
+                'middle_name' => $request->input('middle_name'),
+                'last_name' => $request->input('last_name'),
+                'contact_number' => $request->input('contact_number'),
+                'email' => $request->input('email'),
+                'password' => Hash::make($request->input('password'))
+            ]);
 
-        $validatedUser = array_map('trim', $validatedUser);
-        $validatedUser['first_name'] = ucwords(strtolower($validatedUser['first_name']));
-        $validatedUser['last_name'] = ucwords(strtolower($validatedUser['last_name']));
+            $token = $user->createToken('user_token')->plainTextToken;
 
-        if (isset($validatedUser['middle_name'])) {
-            $validatedUser['middle_name'] = ucwords(strtolower($validatedUser['middle_name']));
+            return response()->json([
+            'user' => $user,
+            'token' => $token
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+                'message' => 'Something went wrong in AuthController.register'
+            ]);
         }
 
-        $validatedUser['password'] = Hash::make($validatedUser['password']);
-
-
-        $user = User::create($validatedUser);
-
-        // Return a response indicating successful registration
-        return response()->json(['message' => 'Registration successful'], 201);
     }
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
+        try {
 
-        if (Auth::attempt($credentials)) {
-            // Authentication successful
-            $user = Auth::user();
-            return response()->json(['user' => $user], 200);
-        } else {
-            // Authentication failed
-            return response()->json(['message' => 'Invalid Email|Password'], 401);
+
+            $user = User::where('email', '=', $request->input('email'))->firstOrFail();
+
+            if (Hash::check($request->input('password'), $user->password)) {
+                $token = $user->createToken('user_token')->plainTextToken;
+                return response()->json([
+                    'user' => $user,
+                    'token' => $token
+                ], 200);
+            } else {
+                return response()->json([
+                    'error' => 'Invalid credentials',
+                    'message' => 'Authentication failed'
+                ], 401);
+            }
+
+        } catch (ValidationException $e) {
+            return response()->json([
+                'error' => $e->errors(),
+                'message' => 'Validation failed in AuthController.login'
+            ], 422);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+                'message' => 'Something went wrong in AuthController.login'
+            ], 500);
         }
     }
 
+
+
     public function logout(Request $request)
     {
-        Auth::logout();
-        return response()->json(['message' => 'Logged out'], 200);
+        try {
+            $user = $request->user();
+            $user->tokens()->delete();
+
+            return response()->json('User logged out!', 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+                'message' => 'Something went wrong in AuthController.logout'
+            ]);
+        }
     }
+
+
+    // public function login(Request $request)
+    // {
+    //     $credentials = $request->validate([
+    //         'email' => 'required|email',
+    //         'password' => 'required'
+    //     ]);
+
+    //     if (Auth::attempt($credentials)) {
+    //         // Authentication successful
+    //         $user = Auth::user();
+    //         return response()->json(['user' => $user], 200);
+    //     } else {
+    //         // Authentication failed
+    //         return response()->json(['message' => 'Invalid Email|Password'], 401);
+    //     }
+    // }
+
+
+
+    // public function logout(Request $request)
+    // {
+    //     $request->session()->flush();
+    //     Auth::logout();
+    //     return response()->json(['message' => 'Logged out'], 200);
+    // }
 }
