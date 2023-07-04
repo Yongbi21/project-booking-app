@@ -52,11 +52,16 @@ Route::resource('project_requests', ProjectRequestController::class);
 
 Route::resource('messages', MessageController::class);
 
-Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
 ;
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('user/{id}', [UserController::class, 'show']);
+    Route::put('user/{id}', [UserController::class, 'update']);
+
     Route::post('logout', [AuthController::class, 'logout']);
+
+
     Route::get('inside-mware', function() {
         return response()->json('success', 200);
     });

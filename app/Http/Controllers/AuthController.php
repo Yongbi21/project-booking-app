@@ -7,11 +7,14 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\LogoutRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
         try {
             $user = User::create([
@@ -21,6 +24,9 @@ class AuthController extends Controller
                 'contact_number' => $request->input('contact_number'),
                 'email' => $request->input('email'),
                 'password' => Hash::make($request->input('password'))
+
+
+
             ]);
 
             $token = $user->createToken('user_token')->plainTextToken;
@@ -39,7 +45,7 @@ class AuthController extends Controller
 
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         try {
 
@@ -59,12 +65,6 @@ class AuthController extends Controller
                 ], 401);
             }
 
-        } catch (ValidationException $e) {
-            return response()->json([
-                'error' => $e->errors(),
-                'message' => 'Validation failed in AuthController.login'
-            ], 422);
-
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage(),
@@ -75,7 +75,7 @@ class AuthController extends Controller
 
 
 
-    public function logout(Request $request)
+    public function logout(LogoutRequest $request)
     {
         try {
             $user = $request->user();
