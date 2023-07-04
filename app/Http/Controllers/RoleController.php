@@ -32,7 +32,7 @@ class RoleController extends Controller
 
         ]);
 
-        $validateRole['role_name'] = ucwords(strtolower($validateRole['role_name']));
+        $validateRole['role_name'] = strtolower($validateRole['role_name']);
         $role = Role::create($validateRole);
         return response()->json($role, 201);
 
@@ -63,7 +63,7 @@ class RoleController extends Controller
             'role_name' => 'required|max:255',
         ]);
 
-        $validateRole['role_name'] = ucwords(strtolower($validateRole['role_name']));
+        $validateRole['role_name'] = strtolower($validateRole['role_name']);
 
         $role->update($validateRole);
 
