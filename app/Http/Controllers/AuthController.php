@@ -9,12 +9,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\LogoutRequest;
-use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\Auth\SignupRequest;
 
 
 class AuthController extends Controller
 {
-    public function register(RegisterRequest $request)
+    public function signup(SignupRequest $request)
     {
         try {
             $user = User::create([
@@ -38,9 +38,9 @@ class AuthController extends Controller
 
         } catch (\Exception $e) {
             return response()->json([
-                'error' => $e->getMessage(),
-                'message' => 'Something went wrong in AuthController.register'
-            ]);
+            'error' => $e->getMessage(),
+            'message' => 'Something went wrong in AuthController.register'
+            ], 400);
         }
 
     }

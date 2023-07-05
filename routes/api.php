@@ -52,8 +52,7 @@ Route::resource('project_requests', ProjectRequestController::class);
 
 Route::resource('messages', MessageController::class);
 
-Route::post('/register', [AuthController::class, 'register']);
-;
+Route::post('/signup', [AuthController::class, 'signup']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('user/{id}', [UserController::class, 'show']);

@@ -4,7 +4,7 @@ namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest
+class SignupRequest extends FormRequest
 {
 
     /**
@@ -19,7 +19,7 @@ class RegisterRequest extends FormRequest
             'middle_name' => ['nullable', 'max:2', 'regex:/^[A-Za-z](\.?)$/'],
             'last_name' => 'required|alpha',
             'email' => 'required|string|email|unique:users|max:255',
-            'contact_number' => 'required|max:20',
+            'contact_number' => 'nullable|max:20',
             'password' => 'required|string|min:8|confirmed',
         ];
     }
