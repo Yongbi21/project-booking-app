@@ -11,7 +11,6 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\LogoutRequest;
 use App\Http\Requests\Auth\SignupRequest;
 
-
 class AuthController extends Controller
 {
     public function signup(SignupRequest $request)
@@ -86,7 +85,7 @@ class AuthController extends Controller
             return response()->json([
                 'error' => $e->getMessage(),
                 'message' => 'Something went wrong in AuthController.logout'
-            ]);
+            ], 500);
         }
     }
 
