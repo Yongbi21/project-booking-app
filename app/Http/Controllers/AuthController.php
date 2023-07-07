@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Requests\Auth\LogoutRequest;
 use App\Http\Requests\Auth\SignupRequest;
 
 class AuthController extends Controller
@@ -38,7 +37,7 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             return response()->json([
             'error' => $e->getMessage(),
-            'message' => 'Something went wrong in AuthController.register'
+            'message' => 'Something went wrong. Please try again'
             ], 400);
         }
 
@@ -49,7 +48,7 @@ class AuthController extends Controller
         try {
 
 
-            $user = User::where('email', '=', $request->input('email'))->firstOrFail();
+            $user = User::where('email', $request->input('email'))->firstOrFail();
 
             if (Hash::check($request->input('password'), $user->password)) {
                 $token = $user->createToken('user_token')->plainTextToken;
@@ -67,14 +66,14 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage(),
-                'message' => 'Something went wrong in AuthController.login'
+                'message' => 'Something went wrong. Please try again'
             ], 500);
         }
     }
 
 
 
-    public function logout(LogoutRequest $request)
+    public function logout(Request $request)
     {
         try {
             $user = $request->user();
@@ -84,7 +83,7 @@ class AuthController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage(),
-                'message' => 'Something went wrong in AuthController.logout'
+                'message' => 'Something went wrong. Please try again'
             ], 500);
         }
     }

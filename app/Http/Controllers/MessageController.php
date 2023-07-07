@@ -12,12 +12,14 @@ class MessageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $messages = Message::latest()->paginate(10);
+        $paginateSize = $request->input('paginate_size', 10);
+        $messages = Message::latest()->paginate($paginateSize);
 
         return response()->json(['messages' => $messages], 200);
     }
+
 
 
     /**
@@ -95,7 +97,7 @@ class MessageController extends Controller
 
         $message->update($validatedData);
 
-        return response()->json((['messages' => $message]), 200);
+        return response()->json($messages, 200);
     }
 
     /**
