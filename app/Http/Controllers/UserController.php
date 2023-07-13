@@ -17,11 +17,12 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $user = User::latest()->paginate(10);
+        $perPage = $request->input('per_page', 10);
+        $user = User::latest()->paginate($perPage);
 
-        return response()->json(['users' => $user], 200);
+        return response()->json($user, 200);
     }
 
     /**
@@ -78,7 +79,7 @@ class UserController extends Controller
         }
         catch (\Exception $e) {
             return response()->json([
-                'message' => 'Something went wrong in UserController.show',
+                'message' => 'An error occurred while showing user details. Please try again later.',
                 'error' => $e->getMessage()
             ], 400);
         }
@@ -119,7 +120,7 @@ class UserController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage(),
-                'message' => 'Something went wrong in UserController.update'
+                'message' => 'An error occurred while updating user details. Please try again later.'
             ], 400);
         }
     }

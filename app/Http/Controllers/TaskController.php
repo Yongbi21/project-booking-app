@@ -12,11 +12,12 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $task = Task::latest()->paginate(10);
+        $perPage = $request->input('per_page', 10);
+        $task = Task::latest()->paginate($perPage);
 
-        return response()->json(['tasks' => $task], 200);
+        return response()->json($task, 200);
     }
 
     /**

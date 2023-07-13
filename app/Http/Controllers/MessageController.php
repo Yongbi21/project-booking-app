@@ -14,10 +14,10 @@ class MessageController extends Controller
      */
     public function index(Request $request)
     {
-        $paginateSize = $request->input('paginate_size', 10);
-        $messages = Message::latest()->paginate($paginateSize);
+        $perPage = $request->input('per_page', 10);
+        $messages = Message::latest()->paginate($perPage);
 
-        return response()->json(['messages' => $messages], 200);
+        return response()->json($messages, 200);
     }
 
 

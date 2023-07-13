@@ -12,11 +12,13 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $project = Project::latest()->paginate(10);
+        $perPage = $request->input('per_page', 10);
+        $project = Project::latest()->paginate($perPage);
 
-        return response()->json(['projects' => $project], 200);
+        return response()->json($project, 200);
+        // return response()->json(['projects' => $project], 200);
     }
 
     /**

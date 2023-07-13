@@ -12,11 +12,12 @@ class MilestoneTaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $milestone_task = MilestoneTask::latest()->paginate(10);
+        $perPage = $request->input('per_page', 10);
+        $milestone_task = MilestoneTask::latest()->paginate($perPage);
 
-        return response()->json(['milestone_task' => $milestone_task], 200);
+        return response()->json($milestone_task, 200);
     }
 
     /**

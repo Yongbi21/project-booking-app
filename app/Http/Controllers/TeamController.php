@@ -13,11 +13,12 @@ class TeamController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(Request $request)
     {
-        $teams = Team::latest()->paginate(10);
+        $perPage = $request->input('per_page', 10);
+        $teams = Team::latest()->paginate($perPage);
 
-        return response()->json(['teams' => $teams], 200);
+        return response()->json($teams, 200);
     }
 
     /**

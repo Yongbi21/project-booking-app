@@ -12,11 +12,12 @@ class RoleUserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $role_user = RoleUser::latest()->paginate(10);
+        $perPage = $request->input('per_page', 10);
+        $role_user = RoleUser::latest()->paginate($perPage);
 
-        return response()->json(['role_user' => $role_user], 200);
+        return response()->json($role_user, 200);
     }
 
 

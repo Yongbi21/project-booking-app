@@ -14,11 +14,12 @@ class TeamUserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $team_user = TeamUser::latest()->paginate(10);
+        $perPage = $request->input('per_page', 10);
+        $team_user = TeamUser::latest()->paginate($perPage);
 
-        return response()->json(['team_user' => $team_user], 200);
+        return response()->json($team_user, 200);
     }
 
 

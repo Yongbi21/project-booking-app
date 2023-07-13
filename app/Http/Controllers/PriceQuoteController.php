@@ -12,11 +12,12 @@ class PriceQuoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $priceQuote = PriceQuote::latest()->paginate(10);
+        $perPage = $request->input('per_page', 10);
+        $priceQuote = PriceQuote::latest()->paginate($perPage);
 
-        return response()->json(['priceQuote' => $priceQuote], 200);
+        return response()->json($priceQuote, 200);
     }
 
     /**

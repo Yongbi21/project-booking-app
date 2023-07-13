@@ -14,11 +14,12 @@ class ProjectRequestController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $projectRequest = ProjectRequest::latest()->paginate(10);
+        $perPage = $request->input('per_page', 10);
+        $projectRequest = ProjectRequest::latest()->paginate($perPage);
 
-        return response()->json(['projectRequest' => $projectRequest], 200);
+        return response()->json($projectRequest, 200);
     }
 
     /**

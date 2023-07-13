@@ -37,7 +37,7 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             return response()->json([
             'error' => $e->getMessage(),
-            'message' => 'Something went wrong. Please try again'
+            'message' => 'An error occurred while signing up. Please try again later.'
             ], 400);
         }
 
@@ -66,7 +66,7 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage(),
-                'message' => 'Something went wrong. Please try again'
+                'message' => 'An error occurred while logging in. Please try again later.'
             ], 500);
         }
     }
@@ -83,7 +83,7 @@ class AuthController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage(),
-                'message' => 'Something went wrong. Please try again'
+                'message' => 'An error occurred while logging out. Please try again later.'
             ], 500);
         }
     }
