@@ -48,7 +48,7 @@ class ProjectRequestController extends Controller
             'budget' => 'required|regex:/^\d+(\.\d{1,2})?$/',
             'priority' => 'required',
             'due_date' => 'required|date',
-            'file' => 'nullable|string',
+            'file' => 'nullable|file',
         ]);
 
         // If a user ID is provided, create a project request associated with the user
