@@ -19,9 +19,6 @@ class ProjectRequest extends Model
         'priority',
         'due_date',
         'file',
-        'project_complexity',
-        'estimate_time',
-        'additional_services',
         'project_name',
         'project_description',
     ];

@@ -45,13 +45,10 @@ class ProjectRequestController extends Controller
             'user_id' => 'nullable|exists:users,id', // Check if the user ID exists in the "users" table
             'project_name' => 'required|max:255',
             'project_description' => 'required|max:500',
-            'budget' => 'required|numeric',
+            'budget' => 'required|regex:/^\d+(\.\d{1,2})?$/',
             'priority' => 'required',
             'due_date' => 'required|date',
             'file' => 'nullable|string',
-            'project_complexity' => 'required',
-            'estimate_time' => 'required|max:255',
-            'additional_services' => 'nullable|string',
         ]);
 
         // If a user ID is provided, create a project request associated with the user
@@ -107,13 +104,10 @@ class ProjectRequestController extends Controller
             'user_id' => 'nullable|exists:users,id',
             'project_name' => 'required|max:255',
             'project_description' => 'required|max:500',
-            'budget' => 'required|numeric',
+            'budget' => 'required|regex:/^\d+(\.\d{1,2})?$/',
             'priority' => 'required',
             'due_date' => 'required|date',
             'file' => 'nullable|string',
-            'project_complexity' => 'required',
-            'estimate_time' => 'required|max:255',
-            'additional_services' => 'nullable|string',
         ]);
 
         // Find the existing project request by ID

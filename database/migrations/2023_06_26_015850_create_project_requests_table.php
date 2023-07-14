@@ -16,16 +16,13 @@ return new class extends Migration
         Schema::create('project_requests', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('project_id')->nullable();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('project_name')->nullable();
             $table->string('project_description')->nullable();
             $table->decimal('budget', 10, 2);
             $table->string('priority');
             $table->date('due_date');
             $table->string('file')->nullable();
-            $table->string('project_complexity');
-            $table->integer('estimate_time');
-            $table->text('additional_services')->nullable();
             $table->timestamps();
 
             $table->foreign('project_id')->references('id')->on('projects');
