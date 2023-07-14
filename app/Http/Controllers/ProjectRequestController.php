@@ -42,7 +42,6 @@ class ProjectRequestController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'user_id' => 'nullable|exists:users,id', // Check if the user ID exists in the "users" table
             'project_name' => 'required|max:255',
             'project_description' => 'required|max:500',
             'budget' => 'required|regex:/^\d+(\.\d{1,2})?$/',
@@ -51,8 +50,23 @@ class ProjectRequestController extends Controller
             'file' => 'nullable|file',
         ]);
 
-        // If a user ID is provided, create a project request associated with the user
-        $projectRequest = ProjectRequest::create($validatedData);
+        $projectRequest = ProjectRequest::create([
+            'user_id' => Auth::check() ? Auth::id() : null,
+            'project_name' => $validatedData['project_name'],
+            'project_description' => $validatedData['project_description'],
+            'budget' => $validatedData['budget'],
+            'priority' => $validatedData['priority'],
+            'due_date' => $validatedData['due_date'],
+            'file' => null, // Initialize the file path as null
+        ]);
+
+        // Handle file upload and update the file path in the project request
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $filePath = $file->store('uploads'); // Set the desired storage path for the file
+            $projectRequest->file = $filePath; // Update the file path in the project request
+            $projectRequest->save();
+        }
 
         // Create a project record in the projects table
         $project = Project::create([
@@ -65,6 +79,7 @@ class ProjectRequestController extends Controller
 
         return response()->json(['projectRequest' => $projectRequest], 201);
     }
+
 
 
     /**
